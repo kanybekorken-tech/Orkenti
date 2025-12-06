@@ -1,0 +1,42 @@
+@startuml
+title Hotel Room Booking - State Diagram
+hide empty description
+
+state "Idle (Initial)" as idle
+state "Room Selected" as selected
+state "Booking Confirmed" as confirmed
+state "Paid" as paid
+state "Booking Completed" as completed
+state "Booking Cancelled" as cancelled
+
+[*] --> idle
+
+idle --> selected : selectRoom()
+selected --> selected : changeRoom() / update selection
+selected --> confirmed : confirmBooking()
+selected --> cancelled : cancelBooking()
+
+confirmed --> paid : makePayment()
+confirmed --> cancelled : cancelBooking()
+
+paid --> completed : [booking finalized]
+paid --> cancelled : refundAndCancel() / admin action
+
+completed --> [*]
+cancelled --> [*]
+
+note right of idle
+  System waits for user action
+end note
+
+note right of selected
+  Room chosen, not confirmed yet.
+  User can change or cancel.
+end note
+
+note right of confirmed
+  Booking confirmed.
+  Payment pending.
+end note
+
+@enduml
