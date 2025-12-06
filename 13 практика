@@ -1,0 +1,56 @@
+@startuml
+title Event Booking Management System - Use Case Diagram
+left to right direction
+
+actor Guest
+actor "Registered User" as User
+actor Administrator
+
+User -up-|> Guest
+
+rectangle "Event Booking System" {
+  usecase "Browse Events" as UC1
+  usecase "View Event Details" as UC1_1
+  usecase "Register Account" as UC2
+  usecase "Login" as UC3
+
+  usecase "Book Event" as UC4
+  usecase "Cancel Booking" as UC5
+
+  usecase "Manage Events" as UC6
+  usecase "Add Event" as UC6_1
+  usecase "Edit Event" as UC6_2
+  usecase "Delete Event" as UC6_3
+  usecase "View All Bookings" as UC7
+}
+
+' Include relationships
+UC1 ..> UC1_1 : includes
+UC6 ..> UC6_1 : includes
+UC6 ..> UC6_2 : includes
+UC6 ..> UC6_3 : includes
+
+' Guest connections
+Guest --> UC1
+
+' Registered User connections
+User --> UC2
+User --> UC3
+User --> UC4
+User --> UC5
+
+' Administrator connections
+Administrator --> UC6
+Administrator --> UC7
+
+note right of User
+  Inherits all Guest use cases
+  plus booking functionality
+end note
+
+note right of Administrator
+  Full system access including
+  management functions
+end note
+
+@enduml
